@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Empty(props) {
   // console.log("props", props);
-  console.log("empty", props);
+  // console.log("empty", props);
   return (
     <main className="appointment__add">
       <img

@@ -2,7 +2,7 @@
 
 export function getAppointmentsForDay(state, day) {
   // console.log("getappointemets", state);
-  console.log("day", day);
+  // console.log("day", day);
   const arr = [];
   for (const element of state.days) {
     if (element.name === day) {
