@@ -3,12 +3,12 @@ import Button from "components/Button";
 import InterviewerList from "components/InterviewerList";
 
 export default function Form(props) {
-  const [name, setName] = useState(props.name || "");
+  const [student, setStudent] = useState(props.student || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
 
   const reset = () => {
-    setName("");
+    setStudent("");
     setInterviewer(null);
   };
 
@@ -16,42 +16,37 @@ export default function Form(props) {
     reset();
     props.onCancel();
   };
-
-  const validateTheText = () => {
-    if (name === "") {
-      setError("The name cannot be left blank.");
-      return;
-    } else if (interviewer === null) {
-      setError("An interviewer must be selected.");
-      return;
-    } else {
-      setError("");
-      return props.onSave(name, interviewer);
-    }
+  const save = () => {
+    props.onSave(student, interviewer);
   };
 
+  // const validateTheText = () => {
+  //   if (name === "") {
+  //     setError("The name cannot be left blank.");
+  //     return;
+  //   } else if (interviewer === null) {
+  //     setError("An interviewer must be selected.");
+  //     return;
+  //   } else {
+  //     setError("");
+  //     console.log("index.js", props);
+  //     return props.onSave(name, interviewer);
+  //   }
+  // };
+  console.log("props.onsave", props.onSave);
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
         <form autoComplete="off">
           <input
-            data-testid="student-name-input"
             className="appointment__create-input text--semi-bold"
             name="name"
             type="text"
             placeholder="Enter Student Name"
-            onChange={(event) => {
-              setName(event.target.value);
-              if (event.target.value !== "") {
-                setError(false);
-              }
-            }}
-            value={name}
+            value={student}
+            onChange={(event) => setStudent(event.target.value)}
           />
         </form>
-        {error && (
-          <section className="appointment__validation">{error}</section>
-        )}
         <InterviewerList
           interviewers={props.interviewers}
           value={interviewer}
@@ -63,7 +58,7 @@ export default function Form(props) {
           <Button danger onClick={cancel}>
             Cancel
           </Button>
-          <Button confirm onClick={() => validateTheText()}>
+          <Button confirm onClick={save}>
             Save
           </Button>
         </section>
