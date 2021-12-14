@@ -25,30 +25,49 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
-  function save(name, interviewer) {
-    const interview = {
-      student: name,
-      interviewer,
-    };
-    transition(SAVING);
-    props.bookInterview(props.id, interview).then(() => {
-      transition(SHOW);
-    });
-  }
-
-  function remove() {
+  const save = (name, interviewer) => {
+    if (!interviewer) {
+      transition(ERROR_SAVE, true);
+    } else {
+      // debugger;
+      const interview = {
+        student: name,
+        interviewer,
+      };
+      transition(SAVING);
+      props.bookInterview(props.id, interview).then(
+        () => {
+          transition(SHOW);
+        },
+        (error) => {
+          console.log("Saving error:", error);
+          transition(ERROR_SAVE, true);
+        }
+      );
+    }
+  };
+  const deleteTheInterview = () => {
     if (mode === SHOW) {
       transition(CONFIRM);
     } else {
       transition(DELETING);
-      props.cancelInterview(props.id).then(() => transition(EMPTY));
+      props.cancelInterview(props.id).then(
+        () => transition(EMPTY),
+        (error) => {
+          console.log("Delete error:", error);
+          transition(ERROR_DELETE, true);
+        }
+      );
     }
-  }
+  };
 
   function edit() {
     transition(EDIT);
   }
-
+  function closeMessage() {
+    back();
+  }
+  console.log("hello", props.interview);
   return (
     <>
       <article className="appointment">
@@ -59,7 +78,7 @@ export default function Appointment(props) {
           <Show
             student={props.interview.student}
             interviewer={props.interview.interviewer}
-            onDelete={remove}
+            onDelete={deleteTheInterview}
             onEdit={edit}
           />
         )}
@@ -76,16 +95,28 @@ export default function Appointment(props) {
           <Confirm
             message="Are you sure you want to cancel this appointment"
             onCancel={back}
-            onConfirm={remove}
+            onConfirm={deleteTheInterview}
           />
         )}
         {mode === EDIT && (
           <Form
             name={props.student}
-            interviewer={props.interview}
+            interviewer={props.interview.interviewer.id}
             onCancel={back}
             onSave={save}
             interviewers={props.interviewers}
+          />
+        )}
+        {mode === ERROR_SAVE && (
+          <Error
+            message="Select an interviewer please or input a name"
+            onClose={closeMessage}
+          />
+        )}
+        {mode === ERROR_DELETE && (
+          <Error
+            message="Could not delete appointment please try again later"
+            onClose={closeMessage}
           />
         )}
       </article>

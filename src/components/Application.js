@@ -12,39 +12,12 @@ import {
   getInterview,
   getInterviewersForDay,
 } from "Helpers/Selectors";
+import useApplicationData from "hooks/useApplicationData";
 
 export default function Application(props) {
-  const setDay = (day) => setState({ ...state, day });
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-
-    appointments: {},
-    interviewers: {},
-  });
-  function bookInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview },
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment,
-    };
-
-    return axios.put(`/api/appointments/${id}`, { interview }).then((res) => {
-      setState({
-        ...state,
-        appointments,
-      });
-    });
-  }
-  function cancelInterview(id) {
-    return axios.delete(`/api/appointments/${id}`).then((res) => {});
-  }
-
   // bookInterview();
-
+  const { state, setDay, bookInterview, cancelInterview, setState } =
+    useApplicationData();
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
   const schedule = dailyAppointments.map((appointment) => {
@@ -72,33 +45,7 @@ export default function Application(props) {
   //     setDays(response.data);
   //   });
   // }, []);
-  useEffect(() => {
-    Promise.all([
-      axios.get(`/api/days`),
-      axios.get(`/api/appointments`),
-      axios.get(`/api/interviewers`),
-    ]).then((all) => {
-      // console.log(all[0].data);
-      setState((prev) => ({
-        ...prev,
-        days: all[0].data,
-        appointments: all[1].data,
-        interviewers: all[2].data,
-      }));
-      // console.log("all", all);
-      // console.log(state);
-      // const dailyAppointments = getAppointmentsForDay(
-      //   {
-      //     days: all[0].data,
-      //     appointments: all[1].data,
-      //     interviewers: all[2].data,
-      //   },
-      //   all[0].data
-      // );
-      // console.log(dailyAppointments);
-      // setDailyAppointment(dailyAppointments);
-    });
-  }, []);
+
   // const dailyAppointments = getAppointmentsForDay(state, state.days);
 
   // console.log("state", state.interviewers);
