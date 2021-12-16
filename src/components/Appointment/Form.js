@@ -3,21 +3,25 @@ import Button from "components/Button";
 import InterviewerList from "components/InterviewerList";
 
 export default function Form(props) {
-  const [student, setStudent] = useState(props.student || "");
+  const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [error, setError] = useState("");
 
   const validate = () => {
-    if (student === "") {
-      setError("Student name cannot be blank");
+    if (name === "") {
+      setError("name must be entered");
+      return;
+    }
+    if (!interviewer) {
+      setError("Interviewer must be selected");
       return;
     }
     setError("");
-    props.onSave(student, interviewer);
+    props.onSave(name, interviewer);
   };
 
   const reset = () => {
-    setStudent("");
+    setName("");
     setInterviewer(null);
   };
 
@@ -25,45 +29,19 @@ export default function Form(props) {
     reset();
     props.onCancel();
   };
-  const save = () => {
-    props.onSave(student, interviewer);
-  };
 
-  // const validateTheText = () => {
-  //   if (name === "") {
-  //     setError("The name cannot be left blank.");
-  //     return;
-  //   } else if (interviewer === null) {
-  //     setError("An interviewer must be selected.");
-  //     return;
-  //   } else {
-  //     setError("");
-  //     console.log("index.js", props);
-  //     return props.onSave(name, interviewer);
-  //   }
-  // };
-  // console.log("props.onsave", props);
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
         <form autoComplete="off">
-          {/* <input
-            className="appointment__create-input text--semi-bold"
-            name="name"
-            type="text"
-            placeholder="Enter Student Name"
-            value={student}
-            onChange={(event) => setStudent(event.target.value)}
-            data-testid="student-name-input"
-          /> */}
           <input
             className="appointment__create-input text--semi-bold"
             name="name"
             type="text"
             placeholder="Enter Student Name"
-            value={student}
+            value={name}
             onChange={(event) => {
-              setStudent(event.target.value);
+              setName(event.target.value);
             }}
             data-testid="student-name-input"
           />

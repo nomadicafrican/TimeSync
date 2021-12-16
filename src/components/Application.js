@@ -1,8 +1,5 @@
 import React from "react";
 import DayList from "./DayList";
-import { useState } from "react";
-import { useEffect } from "react";
-import axios from "axios";
 
 import "components/Application.scss";
 import "components/Appointment";
@@ -14,8 +11,7 @@ import {
 } from "Helpers/Selectors";
 import useApplicationData from "hooks/useApplicationData";
 
-export default function Application(props) {
-  // bookInterview();
+export default function Application() {
   const { state, setDay, bookInterview, cancelInterview } =
     useApplicationData();
   const dailyAppointments = getAppointmentsForDay(state, state.day);
@@ -35,26 +31,6 @@ export default function Application(props) {
       />
     );
   });
-
-  // console.log(state);
-
-  // useEffect(() => {
-  //   const testURL = `/api/days`;
-  //   axios.get(testURL).then((response) => {
-  //     console.log("response", response.data);
-  //     setDays(response.data);
-  //   });
-  // }, []);
-
-  // const dailyAppointments = getAppointmentsForDay(state, state.days);
-
-  // console.log("state", state.interviewers);
-  // if (!dailyAppointments.length) {
-  //   return null;
-  // }
-
-  // const schedule = dailyAppointments.map((appointment) => {
-  //   const interview = getInterview(state, appointment.interview);
 
   return (
     <main className="layout">

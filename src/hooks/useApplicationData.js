@@ -11,41 +11,32 @@ export default function useApplicationData() {
     appointments: {},
     interviewers: {},
   });
-  function bookInterview(id, interview) {
-    const dayUpdater = state.days.findIndex((day) =>
-      day.appointments.includes(id)
-    );
-    const day = {
-      ...state.days.find((day) => day.name === state.day),
-      spots: state.days[dayUpdater].spots - 1,
-    };
-    const days = state.days;
-    days[dayUpdater] = day;
 
+  function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
     };
-
     const appointments = {
       ...state.appointments,
       [id]: appointment,
     };
-    return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
-      setState((prev) => ({ ...prev, appointments, days }));
+    const dayFinder = state.days.find((day) => day.appointments.includes(id));
+    const days = state.days.map((day) => {
+      if (
+        day.name === dayFinder.name &&
+        state.appointments[id].interview === null
+      ) {
+        return { ...day, spots: day.spots - 1 };
+      } else {
+        return day;
+      }
+    });
+    return axios.put(`/api/appointments/${id}`, appointment).then(() => {
+      setState({ ...state, appointments, days });
     });
   }
   function cancelInterview(id) {
-    const dayUpdater = state.days.findIndex((day) =>
-      day.appointments.includes(id)
-    );
-    const day = {
-      ...state.days.find((day) => day.name === state.day),
-      spots: state.days[dayUpdater].spots + 1,
-    };
-    const days = state.days;
-    days[dayUpdater] = day;
-
     const appointment = {
       ...state.appointments[id],
       interview: null,
@@ -54,9 +45,16 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
-
-    return axios.delete(`api/appointments/${id}`, appointments[id]).then(() => {
-      setState((prev) => ({ ...prev, appointments, days }));
+    const dayFinder = state.days.find((day) => day.appointments.includes(id));
+    const days = state.days.map((day) => {
+      if (day.name === dayFinder.name) {
+        return { ...day, spots: day.spots + 1 };
+      } else {
+        return day;
+      }
+    });
+    return axios.delete(`/api/appointments/${id}`, appointment).then(() => {
+      setState({ ...state, appointments, days });
     });
   }
   useEffect(() => {
