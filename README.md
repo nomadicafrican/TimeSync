@@ -32,3 +32,12 @@ npm test
 ```sh
 npm run storybook
 ```
+
+## Setup to run app correctly
+
+Start both the scheduler and the scheduler--api with npm start and go to http://localhost:8000/ to view the Scheduler website. When accessed, you the user are able to
+
+1. Browse and select a day for which you want an interview booked
+2. Update, delete or cancel appointments booked.
+
+If you want to see the error cases being handled you simply must start the scheduler--api with npm run error

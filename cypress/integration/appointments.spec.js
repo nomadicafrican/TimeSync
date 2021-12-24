@@ -14,7 +14,7 @@ describe("Appointments", () => {
       .get("[alt='Tori Malcolm']")
       .click();
     cy.contains("Save").click();
-    // cy.contains(/Saving/i).should("not.exist");
+
     cy.contains("Rustybells Kringlebag");
     cy.contains("Tori Malcolm");
   });

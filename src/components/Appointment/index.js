@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "components/Appointment/styles.scss";
 import useVisualMode from "hooks/useVisualMode";
@@ -21,7 +21,6 @@ const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
 
 export default function Appointment(props) {
-  console.log("hello", props);
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
@@ -37,7 +36,6 @@ export default function Appointment(props) {
         transition(SHOW);
       },
       (error) => {
-        console.log("Saving error:", error);
         transition(ERROR_SAVE, true);
       }
     );
@@ -50,7 +48,6 @@ export default function Appointment(props) {
       props.cancelInterview(props.id).then(
         () => transition(EMPTY),
         (error) => {
-          console.log("Delete error:", error);
           transition(ERROR_DELETE, true);
         }
       );
@@ -105,13 +102,13 @@ export default function Appointment(props) {
         )}
         {mode === ERROR_SAVE && (
           <Error
-            message="Select an interviewer please or input a name"
+            message="Could not save changes, Please try again later"
             onClose={closeMessage}
           />
         )}
         {mode === ERROR_DELETE && (
           <Error
-            message="Could not delete appointment please try again later"
+            message="Could not delete appointment, Please try again later"
             onClose={closeMessage}
           />
         )}

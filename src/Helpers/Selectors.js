@@ -1,8 +1,4 @@
-// import Appointment from "components/Appointment";
-
 export function getAppointmentsForDay(state, day) {
-  // console.log("getappointemets", state);
-  // console.log("day", day);
   const arr = [];
   for (const element of state.days) {
     if (element.name === day) {
@@ -21,7 +17,6 @@ export function getInterview(state, interview) {
   if (interview) {
     obj["student"] = interview.student;
     obj["interviewer"] = state.interviewers[interview.interviewer];
-    // return obj;
   } else {
     return null;
   }
