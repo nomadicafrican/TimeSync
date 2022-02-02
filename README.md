@@ -1,10 +1,19 @@
 # Interview Scheduler
 
-This is a React Application that lets LighthouseLabs students book, edit, delete appointments booked with instructors
+single-page app built on React.js that allows users to book, edit or cancel interviews for each day of the week (Monday - Friday). Application uses a combination of a concise API with a WebSocket server to build a realtime experience.
 
 ## Setup
 
 Install dependencies with `npm install`.
+
+## Servers to start and app functionalities
+
+Start both the scheduler and the scheduler--api with npm start and go to http://localhost:8000/ to view the Scheduler website. When accessed, you the user are able to
+
+1. Browse and select a day for which you want an interview booked
+2. Update, delete or cancel appointments booked.
+
+If you want to see the error cases being handled you simply must start the scheduler--api with npm run error
 
 ## Running Webpack Development Server
 
@@ -24,22 +33,13 @@ npm test
 npm run storybook
 ```
 
-## Servers to start and app functionalities
-
-Start both the scheduler and the scheduler--api with npm start and go to http://localhost:8000/ to view the Scheduler website. When accessed, you the user are able to
-
-1. Browse and select a day for which you want an interview booked
-2. Update, delete or cancel appointments booked.
-
-If you want to see the error cases being handled you simply must start the scheduler--api with npm run error
-
 ## Final Product
 
-Homepage where students can add, delete appointments
+`Homepage where students can add, delete appointments`
 ![](https://github.com/nomadicafrican/scheduler/blob/master/public/images/Screen%20Shot%202021-12-16%20at%204.04.38%20PM.png?raw=true)
 
-The Edit form for the student
+` Editing an appointment`
 ![](https://github.com/nomadicafrican/scheduler/blob/master/public/images/Screen%20Shot%202021-12-16%20at%204.06.17%20PM.png?raw=true)
 
-displays message if there is a backend error
+`displays message if there is a backend error`
 ![](https://github.com/nomadicafrican/scheduler/blob/master/public/images/Screen%20Shot%202021-12-16%20at%204.06.46%20PM.png?raw=true)
